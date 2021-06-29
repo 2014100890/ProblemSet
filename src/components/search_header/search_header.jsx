@@ -9,8 +9,7 @@ const SearchHeader = ({ onSearch }) => {
   }
 
   return (
-    <>
-      <h1>게시물을 검색해보세요</h1>
+    <article>
       <figure>
         <i className="fas fa-search"></i>
         <input
@@ -20,7 +19,7 @@ const SearchHeader = ({ onSearch }) => {
           onChange={onChange}
         ></input>
       </figure>
-    </>
+    </article>
   )
 }
 

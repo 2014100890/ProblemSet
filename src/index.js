@@ -4,7 +4,7 @@ import './index.css'
 import App from './app.jsx'
 import PostLoader from './service/loadposts.js'
 
-const postLoader = new PostLoader(process.env.REACT_APP_API_TOKEN)
+const postLoader = new PostLoader(121345)
 
 ReactDOM.render(
   <React.StrictMode>
