@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Header from './header/header'
-import PostList from './post_list/post_list'
-import SearchHeader from './search_header/search_header'
+import Header from './home_page/header/header'
+import PostList from './home_page/post_list/post_list'
+import PostTab from './home_page/post_tab/post_tab'
+import SearchHeader from './home_page/search_header/search_header'
 
-function Home({ postLoader }) {
+function HomePage({ postLoader }) {
   const [isFetch, setIsFetch] = useState(false)
   const [isLoad, setIsLoad] = useState(true)
   const [posts, setPosts] = useState([])
@@ -29,6 +30,8 @@ function Home({ postLoader }) {
   const search = query => {
     if (query === '') {
       setIsLoad(true)
+      setRequestPageNumber(0)
+      setIsFetch(true)
     } else {
       postLoader
         .search(query) //
@@ -65,10 +68,13 @@ function Home({ postLoader }) {
       <Header />
       <main>
         <SearchHeader onSearch={search} />
-        <PostList posts={posts}></PostList>
+        <article className="my-10">
+          <PostTab />
+          <PostList posts={posts}></PostList>
+        </article>
       </main>
     </div>
   )
 }
 
-export default Home
+export default HomePage

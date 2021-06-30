@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { withRouter } from 'react-router-dom'
 
-function PostDetail({ history, postLoader }) {
+function PostDetail({ postLoader }) {
   const [post, setPost] = useState([])
-
-  const goHome = () => {
-    history.push('/')
-  }
 
   useEffect(() => {
     const postId = document.location.href.split('id=')[1]
@@ -17,14 +12,13 @@ function PostDetail({ history, postLoader }) {
   }, [])
 
   return (
-    <section>
-      <h2>{post.title}</h2>
+    <article className="border mb-4 p-10">
+      <header>
+        <h2 className="text-center mb-10 text-4xl font-medium">{post.title}</h2>
+      </header>
       <p>{post.content}</p>
-      <div>
-        <button onClick={goHome}>뒤로가기</button>
-      </div>
-    </section>
+    </article>
   )
 }
 
-export default withRouter(PostDetail)
+export default PostDetail

@@ -15,9 +15,9 @@ const SearchHeader = ({ onSearch }) => {
 
   return (
     <article className="w-96 mx-auto ">
-      <figure className="p-4 border rounded focus-within:ring-1 focus-within:ring-blue-500 ">
+      <figure className="p-4 border items-center flex rounded focus-within:ring-1 focus-within:ring-blue-500 ">
         <i
-          className="fas fa-search mr-2 text-gray-400"
+          className="fas fa-search mr-2 text-gray-400 justify-items-center "
           onClick={focusInput}
         ></i>
         <input
@@ -26,7 +26,7 @@ const SearchHeader = ({ onSearch }) => {
           type="search"
           onChange={onChange}
           id="search__input"
-          className="apperance-none flex-auto outline-none "
+          className="flex-auto apperance-none outline-none "
         ></input>
       </figure>
     </article>
