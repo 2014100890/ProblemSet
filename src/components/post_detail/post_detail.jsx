@@ -16,16 +16,14 @@ function PostDetail({ history, postLoader }) {
       .then(data => setPost(data))
   }, [])
 
-  console.log(post)
-
   return (
-    <>
+    <section>
       <h2>{post.title}</h2>
       <p>{post.content}</p>
       <div>
         <button onClick={goHome}>뒤로가기</button>
       </div>
-    </>
+    </section>
   )
 }
 

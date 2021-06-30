@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react'
-import Header from './Header/header'
+import React, { useEffect, useState } from 'react'
+import Header from './header/header'
 import PostList from './post_list/post_list'
 import SearchHeader from './search_header/search_header'
 
@@ -61,11 +61,13 @@ function Home({ postLoader }) {
   }, [isFetch])
 
   return (
-    <>
+    <div>
       <Header />
-      <SearchHeader onSearch={search} />
-      <PostList posts={posts}></PostList>
-    </>
+      <main>
+        <SearchHeader onSearch={search} />
+        <PostList posts={posts}></PostList>
+      </main>
+    </div>
   )
 }
 
