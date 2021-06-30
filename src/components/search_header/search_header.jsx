@@ -9,14 +9,15 @@ const SearchHeader = ({ onSearch }) => {
   }
 
   return (
-    <article>
-      <figure>
-        <i className="fas fa-search"></i>
+    <article className="w-96 mx-auto ring-0">
+      <figure className="group transition duration-150 p-4 flex border rounded transition ease-out">
+        <i className="fas fa-search mr-2 text-gray-400"></i>
         <input
           ref={inputRef}
           placeholder="검색어를 입력하세요"
           type="search"
           onChange={onChange}
+          className="apperance-none flex-auto outline-none"
         ></input>
       </figure>
     </article>
