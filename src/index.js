@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import App from './app.jsx'
 import PostLoader from './service/loadposts.js'
 
-const postLoader = new PostLoader(121345)
+let postLoader = new PostLoader(121345)
 
 ReactDOM.render(
   <React.StrictMode>

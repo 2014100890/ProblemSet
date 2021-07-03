@@ -4,10 +4,12 @@ function PostDetail({ postLoader }) {
   const [post, setPost] = useState([])
 
   useEffect(() => {
-    const postId = document.location.href.split('id=')[1]
-    console.log(postId)
+    const currentUrl = document.location
+    const postId = currentUrl.href.split('id=')[1]
+    const activeMode = currentUrl.pathname[1]
+
     postLoader
-      .getDetail(postId) //
+      .getDetail(activeMode, postId) //
       .then(data => setPost(data))
   }, [])
 

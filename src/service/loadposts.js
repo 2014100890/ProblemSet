@@ -5,12 +5,21 @@ class postLoader {
       method: 'GET',
       redirect: 'follow',
     }
+    this.activeTab = 'a-posts'
+  }
+
+  changeTab(index) {
+    if (index === 'a') {
+      this.activeTab = 'a-posts'
+    } else {
+      this.activeTab = 'b-posts'
+    }
   }
 
   async getNewItems(pageNumber) {
     try {
       const response = await fetch(
-        `https://recruit-api.yonple.com/recruit/${this.token}/a-posts?page=${pageNumber}.json`,
+        `https://recruit-api.yonple.com/recruit/${this.token}/${this.activeTab}?page=${pageNumber}.json`,
         this.getRequestOptions
       )
       return await response.json()
@@ -22,7 +31,7 @@ class postLoader {
   async search(query) {
     try {
       const response = await fetch(
-        `https://recruit-api.yonple.com/recruit/${this.token}/a-posts?search=${query}`,
+        `https://recruit-api.yonple.com/recruit/${this.token}/${this.activeTab}?search=${query}`,
         this.getRequestOptions
       )
       return await response.json()
@@ -31,10 +40,16 @@ class postLoader {
     }
   }
 
-  async getDetail(id) {
+  async getDetail(tab, id) {
+    tab = tab + '-posts'
+    console.log(this.activeTab)
+
+    this.changeTab(tab)
+    console.log(this.activeTab)
+
     try {
       const response = await fetch(
-        `https://recruit-api.yonple.com/recruit/${this.token}/a-posts/${id}`,
+        `https://recruit-api.yonple.com/recruit/${this.token}/${tab}/${id}`,
         this.getRequestOptions
       )
       return await response.json()

@@ -5,10 +5,11 @@ import PostTab from './home_page/post_tab/post_tab'
 import SearchHeader from './home_page/search_header/search_header'
 
 function HomePage({ postLoader }) {
+  const [requestPageNumber, setRequestPageNumber] = useState(0)
   const [isFetch, setIsFetch] = useState(false)
   const [isLoad, setIsLoad] = useState(true)
   const [posts, setPosts] = useState([])
-  const [requestPageNumber, setRequestPageNumber] = useState(0)
+  const [activeTab, setActiveTab] = useState('a')
 
   const onScroll = () => {
     const scrollHeight = Math.max(
@@ -33,10 +34,22 @@ function HomePage({ postLoader }) {
       setRequestPageNumber(0)
       setIsFetch(true)
     } else {
-      postLoader
-        .search(query) //
-        .then(data => setPosts(data))
+      postLoader.search(query).then(data => setPosts(data))
       setIsLoad(false)
+    }
+  }
+
+  const changeTab = index => {
+    setActiveTab(index)
+    postLoader.changeTab(index)
+    setPosts([])
+    setRequestPageNumber(0)
+
+    if (isFetch === false) {
+      setIsFetch(true)
+    } else {
+      setIsFetch(false)
+      setIsFetch(true)
     }
   }
 
@@ -69,8 +82,8 @@ function HomePage({ postLoader }) {
       <main>
         <SearchHeader onSearch={search} />
         <article className="my-10">
-          <PostTab />
-          <PostList posts={posts}></PostList>
+          <PostTab onChangeTab={changeTab} activeTab={activeTab} />
+          <PostList posts={posts} activeTab={activeTab} />
         </article>
       </main>
     </div>

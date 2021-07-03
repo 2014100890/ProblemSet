@@ -18,7 +18,7 @@ function App({ postLoader }) {
               <HomePage postLoader={postLoader} />
             </section>
           </Route>
-          <Route path="/a">
+          <Route path="/:activeMode">
             <Detailpage postLoader={postLoader} />
           </Route>
         </Switch>
