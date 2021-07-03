@@ -9,7 +9,7 @@ class postLoader {
   }
 
   changeTab(index) {
-    if (index === 'a') {
+    if (index === 'a-posts') {
       this.activeTab = 'a-posts'
     } else {
       this.activeTab = 'b-posts'
@@ -42,10 +42,7 @@ class postLoader {
 
   async getDetail(tab, id) {
     tab = tab + '-posts'
-    console.log(this.activeTab)
-
-    this.changeTab(tab)
-    console.log(this.activeTab)
+    this.activeTab = tab
 
     try {
       const response = await fetch(

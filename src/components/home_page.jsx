@@ -7,9 +7,10 @@ import SearchHeader from './home_page/search_header/search_header'
 function HomePage({ postLoader }) {
   const [requestPageNumber, setRequestPageNumber] = useState(0)
   const [isFetch, setIsFetch] = useState(false)
-  const [isLoad, setIsLoad] = useState(true)
+  const [isShowAll, setIsShowAll] = useState(true)
   const [posts, setPosts] = useState([])
-  const [activeTab, setActiveTab] = useState('a')
+  const [activeTab, setActiveTab] = useState(postLoader.activeTab)
+  const [query, setQuery] = useState('')
 
   const onScroll = () => {
     const scrollHeight = Math.max(
@@ -30,12 +31,13 @@ function HomePage({ postLoader }) {
 
   const search = query => {
     if (query === '') {
-      setIsLoad(true)
+      setIsShowAll(true)
       setRequestPageNumber(0)
       setIsFetch(true)
     } else {
       postLoader.search(query).then(data => setPosts(data))
-      setIsLoad(false)
+      setIsShowAll(false)
+      setQuery(query)
     }
   }
 
@@ -45,16 +47,40 @@ function HomePage({ postLoader }) {
     setPosts([])
     setRequestPageNumber(0)
 
-    if (isFetch === false) {
-      setIsFetch(true)
+    if (isShowAll === false) {
+      postLoader.search(query).then(data => setPosts(data))
     } else {
-      setIsFetch(false)
-      setIsFetch(true)
+      if (isFetch === false) {
+        setIsFetch(true)
+      } else {
+        setIsFetch(false)
+        setIsFetch(true)
+      }
     }
   }
 
+  // isfetch 조건 처리
+  useEffect(() => {
+    if (isFetch === true) {
+      if (isShowAll === true) {
+        if (requestPageNumber === 0) {
+          setPosts([])
+        }
+        postLoader.getNewItems(requestPageNumber).then(data => {
+          if (data.length === 0) {
+            return
+          }
+          setPosts(posts.concat(data))
+          setRequestPageNumber(requestPageNumber + 1)
+        })
+      }
+    }
+    setIsFetch(false)
+  }, [isFetch])
+
   useEffect(() => {
     window.addEventListener('scroll', onScroll)
+    setActiveTab(postLoader.activeTab)
     postLoader.getNewItems(requestPageNumber).then(data => {
       setPosts(...posts, data)
     })
@@ -62,19 +88,6 @@ function HomePage({ postLoader }) {
       window.removeEventListener('scroll', onScroll)
     }
   }, [])
-
-  useEffect(() => {
-    setIsFetch(false)
-    if (isLoad === true) {
-      postLoader.getNewItems(requestPageNumber).then(data => {
-        if (data.length === 0) {
-          return
-        }
-        setPosts(posts.concat(data))
-        setRequestPageNumber(requestPageNumber + 1)
-      })
-    }
-  }, [isFetch])
 
   return (
     <div>
