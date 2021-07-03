@@ -31,6 +31,7 @@ function HomePage({ postLoader }) {
 
   const search = query => {
     if (query === '') {
+      setPosts([])
       setIsShowAll(true)
       setRequestPageNumber(0)
       setIsFetch(true)
@@ -42,9 +43,9 @@ function HomePage({ postLoader }) {
   }
 
   const changeTab = index => {
+    setPosts([])
     setActiveTab(index)
     postLoader.changeTab(index)
-    setPosts([])
     setRequestPageNumber(0)
 
     if (isShowAll === false) {
@@ -59,35 +60,30 @@ function HomePage({ postLoader }) {
     }
   }
 
-  // isfetch 조건 처리
-  useEffect(() => {
-    if (isFetch === true) {
-      if (isShowAll === true) {
-        if (requestPageNumber === 0) {
-          setPosts([])
-        }
-        postLoader.getNewItems(requestPageNumber).then(data => {
-          if (data.length === 0) {
-            return
-          }
-          setPosts(posts.concat(data))
-          setRequestPageNumber(requestPageNumber + 1)
-        })
-      }
-    }
-    setIsFetch(false)
-  }, [isFetch])
-
   useEffect(() => {
     window.addEventListener('scroll', onScroll)
     setActiveTab(postLoader.activeTab)
     postLoader.getNewItems(requestPageNumber).then(data => {
       setPosts(...posts, data)
     })
+    setRequestPageNumber(requestPageNumber + 1)
     return () => {
       window.removeEventListener('scroll', onScroll)
     }
   }, [])
+
+  useEffect(() => {
+    if (isFetch === true && isShowAll === true) {
+      postLoader.getNewItems(requestPageNumber).then(data => {
+        if (data.length === 0) {
+          return
+        }
+        setPosts(posts.concat(data))
+        setRequestPageNumber(requestPageNumber + 1)
+      })
+    }
+    setIsFetch(false)
+  }, [isFetch])
 
   return (
     <div>
